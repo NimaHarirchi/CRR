@@ -135,10 +135,10 @@ add_library(bytecoin-core ${SOURCE_FILES})
 target_link_libraries(bytecoin-core bytecoin-crypto)
 if(WIN32)
     add_executable(walletd src/main_walletd.cpp src/bytecoin.rc) # .rc works only if referenced directly in add_executable
-    add_executable(bytecoind src/main_bytecoind.cpp src/bytecoin.rc) # .rc works only if referenced directly in add_executable
+    add_executable(cryptoriald src/main_bytecoind.cpp src/bytecoin.rc) # .rc works only if referenced directly in add_executable
 else()
     add_executable(walletd src/main_walletd.cpp)
-    add_executable(bytecoind src/main_bytecoind.cpp)
+    add_executable(cryptoriald src/main_bytecoind.cpp)
 endif()
 add_executable(tests src/main_tests.cpp tests/io.hpp
         tests/crypto/test_crypto.cpp tests/crypto/test_crypto.hpp
@@ -148,7 +148,7 @@ add_executable(tests src/main_tests.cpp tests/io.hpp
 set(Boost_USE_STATIC_LIBS ON)
 add_definitions(-DBOOST_BIND_NO_PLACEHOLDERS=1 -DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE=1) # boost::_1 conflicts with std::_1
 target_link_libraries(walletd bytecoin-crypto bytecoin-core)
-target_link_libraries(bytecoind bytecoin-crypto bytecoin-core)
+target_link_libraries(cryptoriald bytecoin-crypto bytecoin-core)
 target_link_libraries(tests bytecoin-crypto bytecoin-core)
 if(WIN32)
 else()
@@ -160,9 +160,9 @@ else()
     if(APPLE)
         set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11")
         target_link_libraries(walletd "-framework Foundation" "-framework IOKit")
-        target_link_libraries(bytecoind "-framework Foundation" "-framework IOKit")
+        target_link_libraries(cryptoriald "-framework Foundation" "-framework IOKit")
     endif()
     target_link_libraries(walletd ${Boost_LIBRARIES} ${LINK_OPENSSL} dl pthread)
-    target_link_libraries(bytecoind ${Boost_LIBRARIES} ${LINK_OPENSSL} dl pthread)
+    target_link_libraries(cryptoriald ${Boost_LIBRARIES} ${LINK_OPENSSL} dl pthread)
     target_link_libraries(tests ${Boost_LIBRARIES} ${LINK_OPENSSL} dl pthread)
 endif()
